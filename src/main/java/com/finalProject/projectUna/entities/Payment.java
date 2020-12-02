@@ -4,30 +4,31 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
+import java.time.Instant;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
-@Table(name = "tb_category")
-public class Category implements Serializable {
+@Table(name = "tb_payment")
+public class Payment implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    private Instant moment;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "categories")
-    private Set<Product> products = new HashSet<>();
+    @OneToOne
+    @MapsId
+    private Order order;
 
-    public Category(){
+    public Payment() {
 
     }
 
-    public Category(Long id, String name) {
+    public Payment(Long id, Instant moment, Order order) {
         this.id = id;
-        this.name = name;
+        this.moment = moment;
+        this.order = order;
     }
 
     public Long getId() {
@@ -38,24 +39,28 @@ public class Category implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Instant getMoment() {
+        return moment;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setMoment(Instant moment) {
+        this.moment = moment;
     }
 
-    public Set<Product> getProducts() {
-        return products;
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Category category = (Category) o;
-        return id.equals(category.id);
+        Payment payment = (Payment) o;
+        return Objects.equals(id, payment.id);
     }
 
     @Override
