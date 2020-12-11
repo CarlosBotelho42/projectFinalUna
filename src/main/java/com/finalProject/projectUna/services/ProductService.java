@@ -1,15 +1,19 @@
 package com.finalProject.projectUna.services;
 
+import com.finalProject.projectUna.entities.Category;
 import com.finalProject.projectUna.entities.Product;
 import com.finalProject.projectUna.entities.Product;
+import com.finalProject.projectUna.repositories.CategoryRepository;
 import com.finalProject.projectUna.repositories.ProductRepository;
 import com.finalProject.projectUna.repositories.ProductRepository;
+import com.finalProject.projectUna.services.CategoryInterface.CategoryInterface;
 import com.finalProject.projectUna.services.exceptions.DatabaseException;
 import com.finalProject.projectUna.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -20,6 +24,7 @@ public class ProductService {
 
     @Autowired
     private ProductRepository repository;
+    
 
     public List<Product> findAll(){
         return repository.findAll();
@@ -31,6 +36,7 @@ public class ProductService {
     }
 
     public Product insert(Product obj) {
+
         return repository.save(obj);
     }
 
